@@ -45,50 +45,96 @@ Open your browser and visit:
   - Delete models
   - View usage statistics and download counts
 
-## Step 4: Build the Go Client (Optional)
+## Step 4: Build the Clients (Optional)
 
-### Option A: Using the build script (recommended)
+### Go Client
+
+**Option A: Using the build script (recommended)**
 ```bash
 ./build_client.sh
 ```
 
-### Option B: Manual build
+**Option B: Manual build**
 ```bash
-cd client
+cd client/go
 go build -o model-client main.go
 ```
 
-## Step 5: Use the Client
+### Python Client
 
-### List all models
+**Install dependencies:**
 ```bash
-./client/model-client list
+cd client/python
+pip install -r requirements.txt
 ```
 
-### Download a model
+## Step 5: Use the Clients
+
+You can use either the Go client or the Python client. Both have the same functionality.
+
+### Go Client
+
+**List all models:**
 ```bash
-./client/model-client download -name gpt2
+./client/go/model-client list
 ```
 
-Popular small models to try:
+**Download a model:**
+```bash
+./client/go/model-client download -name gpt2
+```
+
+**Get model details:**
+```bash
+./client/go/model-client get -id gpt2
+```
+
+**Delete a model:**
+```bash
+./client/go/model-client delete -id gpt2
+```
+
+**Check server health:**
+```bash
+./client/go/model-client health
+```
+
+### Python Client
+
+**List all models:**
+```bash
+python client/python/model_client.py list
+```
+
+**Download a model:**
+```bash
+python client/python/model_client.py download -n gpt2
+```
+
+**Get model details:**
+```bash
+python client/python/model_client.py get -i gpt2
+```
+
+**Get system statistics:**
+```bash
+python client/python/model_client.py stats
+```
+
+**Delete a model:**
+```bash
+python client/python/model_client.py delete -i gpt2
+```
+
+**Check server health:**
+```bash
+python client/python/model_client.py health
+```
+
+### Popular Models to Try
 - `gpt2` (548 MB)
 - `distilbert-base-uncased` (268 MB)
 - `google/flan-t5-small` (308 MB)
-
-### Get model details
-```bash
-./client/model-client get -id gpt2
-```
-
-### Delete a model
-```bash
-./client/model-client delete -id gpt2
-```
-
-### Check server health
-```bash
-./client/model-client health
-```
 
 ## Configuration
 
@@ -126,19 +172,32 @@ huggingface-cli login
 6. View the model in the user interface at http://localhost:5000/
 7. See statistics including who downloaded it first and usage count
 
-### Using the CLI Client
+### Using the CLI Clients
 
-The client automatically detects your system username.
+Both clients automatically detect your system username.
 
+**Go Client:**
 ```bash
 # Download a small model (username auto-detected)
-./client/model-client download -name gpt2
+./client/go/model-client download -name gpt2
 
 # List all models (shows download counts and first downloader)
-./client/model-client list
+./client/go/model-client list
 
 # Get model details (includes usage statistics)
-./client/model-client get -id gpt2
+./client/go/model-client get -id gpt2
+```
+
+**Python Client:**
+```bash
+# Download a small model (username auto-detected)
+python client/python/model_client.py download -n gpt2
+
+# List all models (shows download counts and first downloader)
+python client/python/model_client.py list
+
+# Get model details (includes usage statistics)
+python client/python/model_client.py get -i gpt2
 ```
 
 ### Using Python Example
@@ -177,10 +236,17 @@ pip install -r requirements.txt
 
 ### Go build fails
 ```bash
-# Make sure you're in the client directory
-cd client
+# Make sure you're in the correct directory
+cd client/go
 go mod tidy
 go build -o model-client main.go
+```
+
+### Python client import errors
+```bash
+# Install dependencies
+cd client/python
+pip install -r requirements.txt
 ```
 
 ## Next Steps

@@ -171,6 +171,6 @@ dmypy.json
 
 # Project specific
 models/
-client/model-client
-client/client
-examples/
+client/go/model-client
+client/python/__pycache__/
+client/python/*.pyc

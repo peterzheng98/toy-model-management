@@ -23,10 +23,17 @@ A comprehensive model management system with a Python Flask server and Go client
 - **Storage**: Configurable mount point for model storage
 - **Database**: JSON-based simple database for model metadata
 
-### Client (Go)
+### Clients
+
+**Go Client** (`client/go/`)
 - **CLI Tool**: Command-line interface for all operations
 - **HTTP Client**: Communicates with Flask server API
 - **CRUD Support**: List, get, download, update, and delete models
+
+**Python Client** (`client/python/`)
+- **CLI Tool**: Python-based command-line interface
+- **HTTP Client**: Uses requests library
+- **Same Features**: All CRUD operations matching Go client functionality
 
 ## Installation
 
@@ -57,13 +64,25 @@ The server will start on `http://localhost:5000`
 
 ### Client Setup
 
+#### Go Client
+
 1. Build the Go client:
 ```bash
-cd client
+cd client/go
 go build -o model-client main.go
 ```
 
 2. The client binary `model-client` is now ready to use!
+
+#### Python Client
+
+1. Install Python client dependencies:
+```bash
+cd client/python
+pip install -r requirements.txt
+```
+
+2. The client script `model_client.py` is now ready to use!
 
 ## Usage
 
@@ -82,21 +101,44 @@ Visit `http://localhost:5000/admin` to:
 - Delete existing models
 - Monitor download status
 
-### Go Client CLI
+### CLI Clients
+
+Both Go and Python clients support the same commands:
 
 #### List all models
+
+**Go:**
 ```bash
-./model-client list
+./client/go/model-client list
+```
+
+**Python:**
+```bash
+python client/python/model_client.py list
 ```
 
 #### Get a specific model
+
+**Go:**
 ```bash
-./model-client get -id bert-base-uncased
+./client/go/model-client get -id bert-base-uncased
+```
+
+**Python:**
+```bash
+python client/python/model_client.py get -i bert-base-uncased
 ```
 
 #### Download a model from Hugging Face
+
+**Go:**
 ```bash
-./model-client download -name google/flan-t5-small
+./client/go/model-client download -name google/flan-t5-small
+```
+
+**Python:**
+```bash
+python client/python/model_client.py download -n google/flan-t5-small
 ```
 
 Examples of model names:
@@ -106,18 +148,51 @@ Examples of model names:
 - `gpt2`
 
 #### Delete a model
+
+**Go:**
 ```bash
-./model-client delete -id google_flan-t5-small
+./client/go/model-client delete -id google_flan-t5-small
+```
+
+**Python:**
+```bash
+python client/python/model_client.py delete -i google_flan-t5-small
+```
+
+#### Get system statistics
+
+**Go:**
+```bash
+./client/go/model-client stats
+```
+
+**Python:**
+```bash
+python client/python/model_client.py stats
 ```
 
 #### Check server health
+
+**Go:**
 ```bash
-./model-client health
+./client/go/model-client health
+```
+
+**Python:**
+```bash
+python client/python/model_client.py health
 ```
 
 #### Use custom server URL
+
+**Go:**
 ```bash
-./model-client list -server http://custom-server:5000
+./client/go/model-client list -server http://custom-server:5000
+```
+
+**Python:**
+```bash
+python client/python/model_client.py -s http://custom-server:5000 list
 ```
 
 ## API Endpoints
@@ -270,16 +345,25 @@ Or use `huggingface-cli login` before running the server.
 ```
 toy-model-management/
 ├── server/
-│   ├── app.py              # Flask application
+│   ├── app.py                 # Flask application
 │   └── templates/
-│       ├── index.html      # User view UI
-│       └── admin.html      # Admin panel UI
+│       ├── index.html         # User view UI
+│       └── admin.html         # Admin panel UI
 ├── client/
-│   ├── main.go             # Go client implementation
-│   └── go.mod              # Go module file
-├── requirements.txt        # Python dependencies
-├── .gitignore             # Git ignore rules
-└── README.md              # This file
+│   ├── go/
+│   │   ├── main.go            # Go client implementation
+│   │   └── go.mod             # Go module file
+│   └── python/
+│       ├── model_client.py    # Python client implementation
+│       ├── requirements.txt   # Python client dependencies
+│       └── README.md          # Python client documentation
+├── requirements.txt           # Server dependencies
+├── .gitignore                 # Git ignore rules
+├── README.md                  # This file
+├── QUICKSTART.md              # Quick start guide
+├── CHANGELOG.md               # Version history
+├── start_server.sh            # Server startup script
+└── build_client.sh            # Go client build script
 ```
 
 ## Model Storage
